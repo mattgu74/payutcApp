@@ -9,5 +9,6 @@
     <string name="action_logout">Déconnexion</string>
     <string name="service">http://localhost</string>
     <string name="url">https://assos.utc.fr/payutc_dev/server/</string>
+    <string name="key">5d75d32dfht0beyh57b6da325a2134gt</string>
 
 </resources>
