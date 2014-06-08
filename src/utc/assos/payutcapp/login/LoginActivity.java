@@ -4,6 +4,7 @@ package utc.assos.payutcapp.login;
 import java.util.concurrent.ExecutionException;
 
 import utc.assos.payutcapp.communication.CasConnexion;
+import utc.assos.payutcapp.communication.LoginApp;
 import utc.assos.payutcapp.communication.LoginCas;
 import utc.assos.payutcapp.communication.NotificationAddDevice;
 import utc.assos.payutcapp.communication.RequestTicket;
@@ -55,6 +56,7 @@ public class LoginActivity extends Activity {
 			if (tbt!= null && tbt.startsWith("TGT")){
 				String ticket = getTicket(tbt, getResources().getString(R.string.service));
 				if (ticket!=null && ticket.startsWith("ST")){
+					loginApp(getResources().getString(R.string.key));
 					loginCas(ticket, getResources().getString(R.string.service));
 					String regid = registration();
 					if (regid != null){
@@ -124,6 +126,20 @@ public class LoginActivity extends Activity {
 		try {
 			LoginCas lc = new LoginCas();
 			return lc.execute(this.getResources().getString(R.string.url)+"MYACCOUNT/",ticket, service).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String loginApp(String key){
+		try {
+			LoginApp la = new LoginApp();
+			return la.execute(this.getResources().getString(R.string.url)+"MYACCOUNT/", key).get();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

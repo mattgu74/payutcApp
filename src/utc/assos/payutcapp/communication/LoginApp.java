@@ -22,7 +22,7 @@ public class LoginApp extends AsyncTask<String, Integer, String> {
 		
 		HttpClient httpclient = PermanentHttpClient.getInstance().getNewHttpClient();
 
-		// On créé notre entête
+		// On crï¿½ï¿½ notre entï¿½te
 		HttpPost httppost = new HttpPost(params[0] + "loginapp");
 		httppost.setHeaders(PermanentHttpClient.getInstance().getCookie());
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
