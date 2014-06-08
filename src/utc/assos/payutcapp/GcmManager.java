@@ -147,6 +147,7 @@ public class GcmManager {
 	                 storeRegistrationId(context, regid);
 	             } catch (IOException ex) {
 	                 msg = "Error :" + ex.getMessage();
+	                 Log.i(TAG, msg);
 	                 // If there is an error, don't just keep trying to register.
 	                 // Require the user to click a button again, or perform
 	                 // exponential back-off.
