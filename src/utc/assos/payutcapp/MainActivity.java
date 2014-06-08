@@ -10,6 +10,7 @@ import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -88,7 +89,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_logout) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -132,8 +133,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
-			return 3;
+			return 4;
 		}
 
 		@Override
@@ -146,6 +146,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 				return getString(R.string.title_section2).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_section3).toUpperCase(l);
+			case 3:
+				return getString(R.string.title_section4).toUpperCase(l);
 			}
 			return null;
 		}
@@ -178,12 +180,36 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			TextView textView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			textView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			int sectionId = getArguments().getInt(ARG_SECTION_NUMBER);
+			View rootView;
+			switch (sectionId) {
+			case 1:
+				rootView = inflater.inflate(R.layout.fragment_main, container,
+						false);
+				TextView tv1 = (TextView) rootView
+						.findViewById(R.id.section_name);
+				tv1.setText("Matthieu GUFFROY");
+				
+				TextView tv2 = (TextView) rootView
+						.findViewById(R.id.section_solde);
+				tv2.setText("Solde : 42,42 €");
+				break;
+			case 2:
+				rootView = inflater.inflate(R.layout.fragment_histo, container,
+						false);
+				break;
+			case 3:
+				rootView = inflater.inflate(R.layout.fragment_transfer,
+						container, false);
+				break;
+			case 4:
+				rootView = inflater.inflate(R.layout.fragment_alcool,
+						container, false);
+				break;
+			default:
+				rootView = inflater.inflate(R.layout.fragment_main, container,
+						false);
+			}
 			return rootView;
 		}
 	}
