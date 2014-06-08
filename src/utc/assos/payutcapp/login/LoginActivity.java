@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 	
-	GcmManager gcm_manager;
+	GcmManager gcm_manager = new GcmManager(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +169,6 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    gcm_manager.checkPlayServices();
+	    //gcm_manager.checkPlayServices();
 	}
 }

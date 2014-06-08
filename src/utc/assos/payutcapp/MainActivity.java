@@ -44,8 +44,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
-	GcmManager gcm_manager = new GcmManager(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -244,14 +242,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 				String ticket = getTicket(tbt, getResources().getString(R.string.service));
 				if (ticket!=null && ticket.startsWith("ST")){
 					loginCas(ticket, getResources().getString(R.string.service));
-					String regid = registration();
-					if (regid != null){
-						//TODO notification
-						notifications(regid);
-					}else{
-						failAuthentification();
-					}
-					
 				}else{
 					failAuthentification();
 				}
@@ -318,42 +308,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 		return null;
 	}
 	
-public String registration(){
-		
-		String regid;
-		gcm_manager = new GcmManager(this);
-		
-		if (gcm_manager.checkPlayServices()) {
-            regid = gcm_manager.getRegistrationId(this);
-            if (regid.isEmpty()) {
-            	gcm_manager.registerInBackground();
-            } else {
-            	return regid;
-            }
-        } else {
-            return null;
-        }
-		return regid;
-	}
-
-	public String notifications(String token){
-		try {
-			NotificationAddDevice no = new NotificationAddDevice();
-			return no.execute(this.getResources().getString(R.string.url), token).get();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    gcm_manager.checkPlayServices();
 	}
 
 }
