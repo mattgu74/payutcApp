@@ -36,6 +36,7 @@ public class GcmManager {
     
 	public GcmManager(Activity loginActivity) {
 		this.activity = loginActivity;
+		context = activity;
 	}
 	
 	
@@ -153,9 +154,9 @@ public class GcmManager {
 	             return msg;
 	         }
 			
-	        protected void onPostExecute(String msg) {
-	            mDisplay.append(msg + "\n");
-	        }
+//	        protected void onPostExecute(String msg) {
+//	            mDisplay.append(msg + "\n");
+//	        }
 		};
 		register_task.execute(null, null, null);
 	 }
