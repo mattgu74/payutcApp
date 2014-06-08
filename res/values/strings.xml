@@ -8,5 +8,6 @@
     <string name="title_section4">Alcool</string>
     <string name="action_logout">Déconnexion</string>
     <string name="service">http://localhost</string>
+    <string name="url">https://assos.utc.fr/payutc_dev/server/</string>
 
 </resources>

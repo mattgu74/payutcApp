@@ -4,6 +4,8 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import utc.assos.payutcapp.communication.CasConnexion;
+import utc.assos.payutcapp.communication.LoginCas;
+import utc.assos.payutcapp.communication.NotificationAddDevice;
 import utc.assos.payutcapp.communication.RequestTicket;
 import utc.assos.payutcapp.login.LoginActivity;
 import utc.assos.payutcapp.prefs.PrefsManager;
@@ -42,6 +44,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	GcmManager gcm_manager = new GcmManager(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -239,10 +243,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			if (tbt!= null && tbt.startsWith("TGT")){
 				String ticket = getTicket(tbt, getResources().getString(R.string.service));
 				if (ticket!=null && ticket.startsWith("ST")){
-					//TODO registration
-					Intent intent = new Intent(this, MainActivity.class);
-					startActivity(intent);
-					this.finish();
+					loginCas(ticket, getResources().getString(R.string.service));
+					String regid = registration();
+					if (regid != null){
+						//TODO notification
+						notifications(regid);
+					}else{
+						failAuthentification();
+					}
 					
 				}else{
 					failAuthentification();
@@ -294,6 +302,58 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String loginCas(String ticket, String service){
+		try {
+			LoginCas lc = new LoginCas();
+			return lc.execute(this.getResources().getString(R.string.url)+"MYACCOUNT/",ticket, service).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+public String registration(){
+		
+		String regid;
+		gcm_manager = new GcmManager(this);
+		
+		if (gcm_manager.checkPlayServices()) {
+            regid = gcm_manager.getRegistrationId(this);
+            if (regid.isEmpty()) {
+            	gcm_manager.registerInBackground();
+            } else {
+            	return regid;
+            }
+        } else {
+            return null;
+        }
+		return regid;
+	}
+
+	public String notifications(String token){
+		try {
+			NotificationAddDevice no = new NotificationAddDevice();
+			return no.execute(this.getResources().getString(R.string.url), token).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    gcm_manager.checkPlayServices();
 	}
 
 }

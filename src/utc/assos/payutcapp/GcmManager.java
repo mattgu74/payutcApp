@@ -6,6 +6,7 @@ import static utc.assos.payutcapp.CommonUtilities.TAG;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -31,9 +32,9 @@ public class GcmManager {
     Context context;
 
     String regid;
-    LoginActivity activity;
+    Activity activity;
     
-	public GcmManager(LoginActivity loginActivity) {
+	public GcmManager(Activity loginActivity) {
 		this.activity = loginActivity;
 	}
 	
